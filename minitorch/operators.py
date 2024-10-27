@@ -221,6 +221,7 @@ def reduce(
         result = start
         for value in ls:
             result = fn(result, value)
+
         return result
 
     return reduceFunction
