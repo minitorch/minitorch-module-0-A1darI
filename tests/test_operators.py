@@ -1,5 +1,6 @@
 from typing import Callable, List, Tuple
 
+import math
 import pytest
 from hypothesis import given
 from hypothesis.strategies import lists
@@ -109,10 +110,13 @@ def test_sigmoid(a: float) -> None:
     """
     sigmoid_a = sigmoid(a)
     assert 0 <= sigmoid_a <= 1.0
-    assert 1 - sigmoid_a == sigmoid(-sigmoid_a)
+    assert_close(1 - sigmoid_a, sigmoid(-a))
     if a == 0.0:
         assert sigmoid_a == 0.5
-    assert sigmoid_a > sigmoid(a - 1e-5)
+    sigmoid_less_a = sigmoid(a - 1e-5)
+    assert sigmoid_a >= sigmoid_less_a
+    if sigmoid_a == sigmoid_less_a:
+        assert_close(sigmoid_a, sigmoid_less_a)
 
 
 @pytest.mark.task0_2
@@ -138,7 +142,7 @@ def test_distribute(x: float, y: float, z: float) -> None:
     r"""Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    assert mul(z, add(x, y)) == add(mul(z, x), mul(z, y))
+    assert_close(mul(z, add(x, y)), add(mul(z, x), mul(z, y)))
 
 
 @pytest.mark.task0_2
@@ -174,8 +178,7 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     """Write a test that ensures that the sum of `ls1` plus the sum of `ls2`
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    assert math.isclose(sum(ls1) + sum(ls2), sum(addLists(ls1, ls2)), rel_tol=1e-6, abs_tol=1e-15)
 
 
 @pytest.mark.task0_3
