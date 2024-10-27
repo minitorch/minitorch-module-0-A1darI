@@ -178,7 +178,9 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     """Write a test that ensures that the sum of `ls1` plus the sum of `ls2`
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
-    assert math.isclose(sum(ls1) + sum(ls2), sum(addLists(ls1, ls2)), rel_tol=1e-6, abs_tol=1e-15)
+    assert math.isclose(
+        sum(ls1) + sum(ls2), sum(addLists(ls1, ls2)), rel_tol=1e-6, abs_tol=1e-15
+    )
 
 
 @pytest.mark.task0_3
